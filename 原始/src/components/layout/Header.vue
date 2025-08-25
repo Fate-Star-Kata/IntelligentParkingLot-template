@@ -1,0 +1,151 @@
+<script setup lang="ts">
+import { provide, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import router from '@/router'
+import { useOptionsStore } from '@/stores/options'
+import Models from './btns/models.vue'
+import Time from './information/time.vue'
+
+import MenuItems from './MenuItems.vue'
+import serverConfig from '@/configs'
+import { useUserStore } from '@/stores/auth/user'
+import { svgToBase64 } from "utils/tools.ts";
+import { storeToRefs } from "pinia";
+
+const { t } = useI18n()
+
+const optionsStore = useOptionsStore()
+const expandedMenus = ref<Set<string>>(new Set())
+const website_name = serverConfig.website_name
+
+const store = useUserStore()
+
+const { userInfo } = storeToRefs(store)
+
+//默认头像 适配无图片
+const svg = `
+  <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120">
+    <circle cx="60" cy="60" r="58" fill="#e3f2fd" stroke="#90caf9" stroke-width="2"/>
+    <text
+      x="60"
+      y="70"
+      text-anchor="middle"
+      font-family="Arial, sans-serif"
+      font-size="48"
+      fill="#1976d2"
+      font-weight="bold"
+    >
+      ${(userInfo?.value?.username?.[0] || '?').toUpperCase()}
+    </text>
+  </svg>
+`
+
+const avatar = ref(`data:image/svg+xml;base64,${svgToBase64(svg)}`)
+
+// 用户头像下拉菜单项
+const userMenuItems = ref([
+  {
+    title: '个人资料',
+    class: 'justify-between',
+    badge: '新',
+    event: () => {
+      console.log('跳转到个人资料页面')
+      router.push('/userInfo')
+    }
+  },
+  {
+    title: '设置',
+    class: '',
+    hide: true,
+    event: () => {
+      console.log('跳转到设置页面')
+      // router.push('/settings')
+    }
+  },
+  {
+    title: '退出登录',
+    class: '',
+    event: () => {
+      console.log('执行退出登录')
+      router.push("/auth/login")
+    }
+  }
+])
+
+// 从store获取菜单项
+const menuItems = optionsStore.getCurrentMenuItems
+
+function toggleSubmenu(menuId: string) {
+  if (expandedMenus.value.has(menuId)) {
+    expandedMenus.value.delete(menuId)
+  }
+  else {
+    expandedMenus.value.add(menuId)
+  }
+}
+
+function isMenuExpanded(menuId: string) {
+  return expandedMenus.value.has(menuId)
+}
+
+// 提供菜单状态管理函数给子组件
+provide('isMenuExpanded', isMenuExpanded)
+provide('toggleSubmenu', toggleSubmenu)
+</script>
+
+<template>
+  <div class="navbar bg-base-100 z-1000 shadow-md">
+    <div class="navbar-start">
+      <div class="dropdown">
+        <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+          </svg>
+        </div>
+        <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+          <MenuItems :menu-items="menuItems" />
+        </ul>
+      </div>
+      <a href="/" class="btn btn-ghost text-xl">{{ website_name }}</a>
+    </div>
+    <!-- <div class="navbar-center hidden lg:flex">
+      <ul class="menu lg:menu-horizontal rounded-box">
+        <MenuItems :menu-items="menuItems" />
+      </ul>
+    </div> -->
+    <div class="navbar-end">
+      <div class="flex items-center gap-2">
+        <Time format="yyyy-mm-dd hh:MM:ss"/>
+        <Models />
+
+        <!-- 用户头像显示区域 -->
+        <div class="dropdown dropdown-end" v-if="userInfo?.username">
+          <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar avatar-online">
+            <div class="w-10 rounded-full">
+              <img alt="用户头像" height="30" :src="avatar" />
+            </div>
+          </div>
+          <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+            <li v-for="(item, index) in userMenuItems" :key="index" v-show="!item.hide">
+              <a :class="item.class" :title="item.title" @click="item.event">
+                {{ item.title }}
+                <span v-if="item.badge" class="badge">{{ item.badge }}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div v-else>
+          <button class="btn btn-soft btn-success w-28 mr-1" @click="router.push('/auth/login')">
+            {{ t('header.login') }}
+          </button>
+          <button class="btn btn-soft btn-warning w-28" @click="router.push('/auth/register')">
+            {{ t('header.register') }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang='stylus' scoped></style>
