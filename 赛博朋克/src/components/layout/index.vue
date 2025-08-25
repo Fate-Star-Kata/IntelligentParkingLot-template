@@ -7,14 +7,16 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <Header />
-  <!-- 路由出口，用于显示页面内容 -->
-  <div class="w-full" style="height: calc(100vh - 65px);">
-    <slot>
-      <!-- 默认内容或RouterView -->
-    </slot>
+  <div class="app-shell theme-modern">
+    <Header />
+    <!-- 路由出口，用于显示页面内容 -->
+    <div class="w-full" style="">
+      <slot>
+        <!-- 默认内容或RouterView -->
+      </slot>
+    </div>
+    <Footer />
   </div>
-  <Footer />
 </template>
 
 <style scoped lang="scss"></style>

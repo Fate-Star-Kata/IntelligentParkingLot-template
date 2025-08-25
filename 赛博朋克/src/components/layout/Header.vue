@@ -94,58 +94,273 @@ provide('toggleSubmenu', toggleSubmenu)
 </script>
 
 <template>
-  <div class="navbar bg-base-100 z-1000 shadow-md">
-    <div class="navbar-start">
-      <div class="dropdown">
-        <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
-          </svg>
+  <header class="modern-header">
+    <div class="header-container">
+      <!-- 左侧：Logo 和移动端菜单 -->
+      <div class="header-start">
+        <div class="mobile-menu-wrapper">
+          <button class="mobile-menu-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+            </svg>
+          </button>
+          <div class="mobile-menu-dropdown">
+            <MenuItems :menu-items="menuItems" />
+          </div>
         </div>
-        <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-          <MenuItems :menu-items="menuItems" />
-        </ul>
+        <a href="/" class="brand-link">{{ website_name }}</a>
       </div>
-      <a href="/" class="btn btn-ghost text-xl">{{ website_name }}</a>
-    </div>
-    <!-- <div class="navbar-center hidden lg:flex">
-      <ul class="menu lg:menu-horizontal rounded-box">
-        <MenuItems :menu-items="menuItems" />
-      </ul>
-    </div> -->
-    <div class="navbar-end">
-      <div class="flex items-center gap-2">
-        <Time format="yyyy-mm-dd hh:MM:ss"/>
-        <Models />
 
-        <!-- 用户头像显示区域 -->
-        <div class="dropdown dropdown-end" v-if="userInfo?.username">
-          <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar avatar-online">
-            <div class="w-10 rounded-full">
-              <img alt="用户头像" height="30" :src="avatar" />
+      <!-- 右侧：时间、模型选择、用户菜单 -->
+      <div class="header-end">
+        <div class="header-actions">
+          <Time format="yyyy-mm-dd hh:MM:ss" class="time-display"/>
+          <Models class="models-selector" />
+
+          <!-- 用户头像显示区域 -->
+          <div class="user-menu" v-if="userInfo?.username">
+            <button class="user-avatar-btn">
+              <div class="avatar-wrapper">
+                <img alt="用户头像" :src="avatar" class="avatar-img" />
+              </div>
+            </button>
+            <div class="user-dropdown">
+              <div v-for="(item, index) in userMenuItems" :key="index" v-show="!item.hide" class="dropdown-item" @click="item.event">
+                <span>{{ item.title }}</span>
+                <span v-if="item.badge" class="item-badge">{{ item.badge }}</span>
+              </div>
             </div>
           </div>
-          <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-            <li v-for="(item, index) in userMenuItems" :key="index" v-show="!item.hide">
-              <a :class="item.class" :title="item.title" @click="item.event">
-                {{ item.title }}
-                <span v-if="item.badge" class="badge">{{ item.badge }}</span>
-              </a>
-            </li>
-          </ul>
-        </div>
 
-        <div v-else>
-          <button class="btn btn-soft btn-success w-28 mr-1" @click="router.push('/auth/login')">
-            {{ t('header.login') }}
-          </button>
-          <button class="btn btn-soft btn-warning w-28" @click="router.push('/auth/register')">
-            {{ t('header.register') }}
-          </button>
+          <!-- 未登录状态 -->
+          <div v-else class="auth-buttons">
+            <button class="auth-btn login-btn" @click="router.push('/auth/login')">
+              {{ t('header.login') }}
+            </button>
+            <button class="auth-btn register-btn" @click="router.push('/auth/register')">
+              {{ t('header.register') }}
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </header>
 </template>
 
-<style lang='stylus' scoped></style>
+<style scoped>
+.modern-header {
+  background: rgb(var(--bg-elevated));
+  border-bottom: 1px solid rgb(var(--border));
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  height: 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-start {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.mobile-menu-wrapper {
+  position: relative;
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  .mobile-menu-wrapper {
+    display: none;
+  }
+}
+
+.mobile-menu-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-md);
+  background: transparent;
+  border: none;
+  color: rgb(var(--text));
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mobile-menu-btn:hover {
+  background: rgb(var(--bg-muted));
+}
+
+.mobile-menu-dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  background: rgb(var(--bg-elevated));
+  border: 1px solid rgb(var(--border));
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  min-width: 13rem;
+  padding: 0.5rem;
+  z-index: 50;
+  display: none;
+}
+
+.mobile-menu-wrapper:hover .mobile-menu-dropdown {
+  display: block;
+}
+
+.brand-link {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: rgb(var(--text));
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.brand-link:hover {
+  color: rgb(var(--primary));
+}
+
+.header-end {
+  display: flex;
+  align-items: center;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.time-display {
+  font-size: 0.875rem;
+  color: rgb(var(--text-secondary));
+  font-weight: 500;
+}
+
+.models-selector {
+  /* 样式由子组件处理 */
+}
+
+.user-menu {
+  position: relative;
+}
+
+.user-avatar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.user-avatar-btn:hover {
+  transform: scale(1.05);
+}
+
+.avatar-wrapper {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgb(var(--border));
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  background: rgb(var(--bg-elevated));
+  border: 1px solid rgb(var(--border));
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  min-width: 13rem;
+  padding: 0.5rem;
+  z-index: 50;
+  display: none;
+}
+
+.user-menu:hover .user-dropdown {
+  display: block;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: rgb(var(--text));
+}
+
+.dropdown-item:hover {
+  background: rgb(var(--bg-muted));
+}
+
+.item-badge {
+  background: rgb(var(--primary));
+  color: white;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.auth-btn {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  font-size: 0.875rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 7rem;
+}
+
+.login-btn {
+  background: rgb(var(--success));
+  color: white;
+}
+
+.login-btn:hover {
+  background: rgb(5 150 105 / 0.9);
+}
+
+.register-btn {
+  background: rgb(var(--warning));
+  color: white;
+}
+
+.register-btn:hover {
+  background: rgb(217 119 6 / 0.9);
+}
+</style>

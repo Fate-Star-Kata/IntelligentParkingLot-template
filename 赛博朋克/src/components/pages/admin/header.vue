@@ -77,9 +77,9 @@ function toggleFullscreen() {
 </script>
 
 <template>
-  <div class="admin-header flex items-center justify-between px-6 h-full">
+  <div class="admin-header">
     <!-- 左侧区域 -->
-    <div class="flex items-center">
+    <div class="header-left">
       <!-- 菜单切换按钮 -->
       <el-button type="text" size="large" @click="handleToggleSidebar" class="mr-4">
         <el-icon size="18">
@@ -97,9 +97,8 @@ function toggleFullscreen() {
     </div>
 
     <!-- 右侧区域 -->
-    <div class="flex items-center space-x-4">
+    <div class="header-right">
       <!-- 搜索框 -->
-      <el-input placeholder="搜索菜单" size="small" style="width: 200px" prefix-icon="Search" clearable />
 
       <!-- 全屏按钮 -->
       <el-tooltip content="全屏" placement="bottom">
@@ -163,10 +162,31 @@ function toggleFullscreen() {
 
 <style scoped>
 .admin-header {
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.item {
-  margin-right: 8px;
-}
+  display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    width: 100%;
+    height: 100%;
+    border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .header-left {
+      display: flex;
+      align-items: center;
+      flex: 0 0 auto;
+    }
+    
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 0 0 auto;
+      margin-left: auto;
+    }
+    
+    .item {
+      margin-right: 8px;
+    }
+    
 </style>
