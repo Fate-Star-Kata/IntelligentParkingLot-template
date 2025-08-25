@@ -679,9 +679,9 @@ const formatCurrency = (amount: number | undefined | null) => {
       <!-- 费用配置管理 -->
       <el-card>
         <template #header>
-          <div class="flex items-center justify-between">
+          <div class="flex justify-between items-center">
             <div>
-              <span class="text-lg font-medium">费用配置管理</span>
+              <h3 class="text-lg font-semibold">费用配置管理</h3>
               <p class="text-sm text-gray-500 mt-1">管理停车场的费用配置模板</p>
             </div>
             <div>
@@ -708,29 +708,29 @@ const formatCurrency = (amount: number | undefined | null) => {
 
         <!-- 配置列表 -->
         <div v-loading="loading">
-          <el-table :data="paginatedFeeConfigs" stripe class="modern-table">
-            <el-table-column prop="name" label="配置名称" width="150" />
-            <el-table-column prop="base_fee" label="基础费用" width="100">
+          <el-table :data="paginatedFeeConfigs" stripe class="modern-table" style="width: 100%">
+            <el-table-column prop="name" label="配置名称" min-width="120" />
+            <el-table-column prop="base_fee" label="基础费用" min-width="100">
               <template #default="{ row }">
                 {{ formatCurrency(row.base_fee) }}
               </template>
             </el-table-column>
-            <el-table-column prop="base_hours" label="基础时长" width="100">
+            <el-table-column prop="base_hours" label="基础时长" min-width="100">
               <template #default="{ row }">
                 {{ row.base_hours }}小时
               </template>
             </el-table-column>
-            <el-table-column prop="hourly_rate" label="超时费率" width="120">
+            <el-table-column prop="hourly_rate" label="超时费率" min-width="120">
               <template #default="{ row }">
                 {{ formatCurrency(row.hourly_rate) }}/小时
               </template>
             </el-table-column>
-            <el-table-column prop="daily_max_fee" label="日最高费用" width="120">
+            <el-table-column prop="daily_max_fee" label="日最高费用" min-width="120">
               <template #default="{ row }">
                 {{ formatCurrency(row.daily_max_fee) }}
               </template>
             </el-table-column>
-            <el-table-column prop="free_minutes" label="免费时长" width="100">
+            <el-table-column prop="free_minutes" label="免费时长" min-width="100">
               <template #default="{ row }">
                 {{ row.free_minutes }}分钟
               </template>
@@ -742,7 +742,7 @@ const formatCurrency = (amount: number | undefined | null) => {
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="created_at" label="创建时间" width="150">
+            <el-table-column prop="created_at" label="创建时间" min-width="150">
               <template #default="{ row }">
                 {{ formatDateTime(row.created_at) }}
               </template>
@@ -993,13 +993,11 @@ const formatCurrency = (amount: number | undefined | null) => {
           <div class="flex justify-between items-center">
             <h3 class="text-lg font-semibold">停车位管理</h3>
             <div class="flex items-center gap-3">
-              <el-select v-model="selectedAreaId" placeholder="选择区域"
-                @change="filterSpotsByArea(selectedAreaId)" class="w-44">
+              <el-select v-model="selectedAreaId" placeholder="选择区域" @change="filterSpotsByArea(selectedAreaId)"
+                style="width: 180px;">
                 <el-option label="全部区域" :value="null" />
                 <el-option v-for="area in parkingAreas" :key="area.id" :label="area.name" :value="area.id" />
               </el-select>
-              <!-- 调试信息:  -->
-              <span style="color: #fff; ">selectedAreaId={{ selectedAreaId }}, parkingAreas.length={{ parkingAreas.length }}</span>
               <el-button type="primary" @click="showCreateSpotForm = true">
                 <i class="fas fa-plus mr-2"></i>新建车位
               </el-button>
@@ -1117,43 +1115,87 @@ const formatCurrency = (amount: number | undefined | null) => {
 .settings-page {
   width: 100%;
   padding: 20px;
-  background: #f5f5f5;
+  background: linear-gradient(135deg, #1f2937 0%, #111827 50%, #0f172a 100%);
+  color: #e5e7eb;
+  position: relative;
+  overflow: hidden;
   min-height: 100vh;
-  color: #333;
+}
+
+.settings-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    linear-gradient(rgba(6, 182, 212, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(6, 182, 212, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: grid-move 20s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes grid-move {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(50px, 50px);
+  }
 }
 
 .el-card {
   margin-bottom: 20px;
-  border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e0e0e0;
-  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(6, 182, 212, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  background: rgba(31, 41, 55, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+.el-card:hover {
+  box-shadow: 0 8px 25px rgba(6, 182, 212, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border-color: rgba(6, 182, 212, 0.5);
 }
 
 .modern-table {
-  border-radius: 4px;
+  border-radius: 12px;
   overflow: hidden;
-  border: 1px solid #e0e0e0;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  background: rgba(31, 41, 55, 0.8);
 }
 
 .modern-table .el-table__header {
-  background: #409eff;
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.2) 0%, rgba(6, 182, 212, 0.1) 100%);
 }
 
 .modern-table .el-table__header th {
   background: transparent;
-  color: white;
+  color: #06b6d4;
   font-weight: 600;
-  border-bottom: none;
+  border-bottom: 2px solid rgba(6, 182, 212, 0.5);
   padding: 12px;
+  text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+}
+
+.modern-table .el-table__row {
+  background: rgba(31, 41, 55, 0.6);
+  border-bottom: 1px solid rgba(6, 182, 212, 0.2);
+  color: #e5e7eb;
 }
 
 .modern-table .el-table__row:hover {
-  background: #f5f7fa;
+  background: rgba(6, 182, 212, 0.1);
 }
 
 .modern-table .el-table__cell {
   padding: 12px;
+  border-bottom: 1px solid rgba(6, 182, 212, 0.2);
+  color: #e5e7eb;
 }
 
 .pagination-container {
@@ -1161,23 +1203,26 @@ const formatCurrency = (amount: number | undefined | null) => {
   justify-content: center;
   margin-top: 20px;
   padding: 15px;
-  background: white;
-  border-radius: 4px;
-  border: 1px solid #e0e0e0;
+  background: rgba(31, 41, 55, 0.8);
+  border-radius: 12px;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  backdrop-filter: blur(10px);
 }
 
 /* 编辑表单样式 */
 .edit-form-container {
   margin-top: 20px;
-  background: white;
-  border-radius: 4px;
-  border: 1px solid #e0e0e0;
+  background: rgba(31, 41, 55, 0.8);
+  border-radius: 12px;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  backdrop-filter: blur(10px);
 }
 
 .edit-form-header {
-  background: #409eff;
+  background: rgba(6, 182, 212, 0.1);
   padding: 15px 20px;
-  color: white;
+  color: #06b6d4;
+  border-bottom: 1px solid rgba(6, 182, 212, 0.3);
 }
 
 .edit-form-title {
@@ -1186,10 +1231,14 @@ const formatCurrency = (amount: number | undefined | null) => {
   font-weight: 600;
   display: flex;
   align-items: center;
+  color: #06b6d4;
+  text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
 }
 
 .modern-form {
   padding: 20px;
+  background: transparent;
+  color: #e5e7eb;
 }
 
 .form-actions {
@@ -1198,52 +1247,133 @@ const formatCurrency = (amount: number | undefined | null) => {
   gap: 10px;
   margin-top: 20px;
   padding-top: 15px;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid rgba(6, 182, 212, 0.3);
 }
 
 .cancel-btn {
-  background: #f5f5f5;
-  border: 1px solid #d9d9d9;
-  color: #666;
+  background: rgba(107, 114, 128, 0.2);
+  border: 1px solid rgba(107, 114, 128, 0.3);
+  color: #9ca3af;
 }
 
 .cancel-btn:hover {
-  background: #e8e8e8;
-  border-color: #bbb;
+  background: rgba(107, 114, 128, 0.3);
+  border-color: rgba(107, 114, 128, 0.5);
+  color: #d1d5db;
 }
 
 .save-btn {
-  background: #409eff;
+  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
   border: none;
   color: white;
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
 }
 
 .save-btn:hover {
-  background: #337ecc;
+  background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.6);
 }
 
 .disabled-input {
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
+  background: rgba(31, 41, 55, 0.5);
+  border: 1px solid rgba(107, 114, 128, 0.3);
+  color: #9ca3af;
 }
 
 .status-select {
   width: 100%;
 }
 
+/* 表格样式 */
+.modern-table {
+  background: rgba(31, 41, 55, 0.8);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  border-radius: 12px;
+  overflow: hidden;
+
+  :deep(.el-table) {
+    background: transparent;
+    color: #e5e7eb;
+  }
+
+  :deep(.el-table__row) {
+    background: rgba(31, 41, 55, 0.6);
+    border-bottom: 1px solid rgba(6, 182, 212, 0.2);
+    transition: all 0.3s ease;
+    color: #e5e7eb;
+
+    &:hover {
+      background: rgba(6, 182, 212, 0.1);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.2);
+    }
+
+    td {
+      border-bottom: 1px solid rgba(6, 182, 212, 0.2);
+      color: #e5e7eb;
+      background: transparent;
+    }
+  }
+
+  :deep(.el-table__header) {
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.2) 0%, rgba(6, 182, 212, 0.1) 100%);
+
+    th {
+      background: transparent;
+      border-bottom: 2px solid rgba(6, 182, 212, 0.5);
+      color: #06b6d4;
+      font-weight: 600;
+      text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+    }
+  }
+
+  :deep(.el-table__body) {
+    background: transparent;
+  }
+
+  :deep(.el-table--border) {
+    border: 1px solid rgba(6, 182, 212, 0.3);
+  }
+
+  :deep(.el-table--border::after) {
+    background-color: rgba(6, 182, 212, 0.3);
+  }
+
+  :deep(.el-table__border-left-patch) {
+    background-color: rgba(6, 182, 212, 0.3);
+  }
+
+  :deep(.el-table__border-bottom-patch) {
+    background-color: rgba(6, 182, 212, 0.3);
+  }
+
+  :deep(.el-table__empty-block) {
+    background: transparent;
+    color: #9ca3af;
+  }
+
+  :deep(.el-table__empty-text) {
+    color: #9ca3af;
+  }
+}
+
 /* 按钮美化 */
 .el-button {
-  border-radius: 4px;
+  border-radius: 8px;
   font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .el-button--primary {
-  background: #409eff;
+  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
   border: none;
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
 }
 
 .el-button--primary:hover {
-  background: #337ecc;
+  background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.6);
+  transform: translateY(-2px);
 }
 
 /* 标签美化 */
@@ -1299,38 +1429,163 @@ const formatCurrency = (amount: number | undefined | null) => {
   max-width: 160px;
 }
 
+/* Element Plus 组件深度样式覆盖 */
+:deep(.el-input__wrapper) {
+  background: rgba(31, 41, 55, 0.8) !important;
+  border: 1px solid rgba(6, 182, 212, 0.3) !important;
+  border-radius: 8px !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+:deep(.el-input__wrapper:hover) {
+  border-color: rgba(6, 182, 212, 0.5) !important;
+}
+
+:deep(.el-input__wrapper.is-focus) {
+  border-color: #06b6d4 !important;
+  box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.2) !important;
+}
+
+:deep(.el-input__inner) {
+  color: #e5e7eb !important;
+  background: transparent !important;
+}
+
+:deep(.el-input__inner::placeholder) {
+  color: #e5e7eb !important;
+}
+
+:deep(.el-select .el-input__inner::placeholder) {
+  color: #e5e7eb !important;
+  opacity: 1 !important;
+}
+
+:deep(.el-select .el-input .el-input__inner::placeholder) {
+  color: #e5e7eb !important;
+  opacity: 1 !important;
+}
+
+:deep(.el-select .el-input__wrapper) {
+  background: rgba(31, 41, 55, 0.8) !important;
+  border: 1px solid rgba(6, 182, 212, 0.3) !important;
+}
+
+:deep(.el-select-dropdown) {
+  background: rgba(31, 41, 55, 0.95) !important;
+  border: 1px solid rgba(6, 182, 212, 0.3) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+:deep(.el-select-dropdown__item) {
+  color: #e5e7eb !important;
+}
+
+:deep(.el-select-dropdown__item:hover) {
+  background: rgba(6, 182, 212, 0.2) !important;
+}
+
+:deep(.el-select-dropdown__item.selected) {
+  background: rgba(6, 182, 212, 0.3) !important;
+  color: #06b6d4 !important;
+}
+
+:deep(.el-input-number .el-input__wrapper) {
+  background: rgba(31, 41, 55, 0.8) !important;
+  border: 1px solid rgba(6, 182, 212, 0.3) !important;
+}
+
+:deep(.el-input-number__decrease),
+:deep(.el-input-number__increase) {
+  background: rgba(6, 182, 212, 0.1) !important;
+  border-color: rgba(6, 182, 212, 0.3) !important;
+  color: #06b6d4 !important;
+}
+
+:deep(.el-input-number__decrease:hover),
+:deep(.el-input-number__increase:hover) {
+  background: rgba(6, 182, 212, 0.2) !important;
+  color: #06b6d4 !important;
+}
+
+:deep(.el-form-item__label) {
+  color: #06b6d4 !important;
+  font-weight: 500 !important;
+}
+
+:deep(.el-pagination) {
+  color: #e5e7eb !important;
+}
+
+:deep(.el-pagination .el-pager li) {
+  background: rgba(31, 41, 55, 0.8) !important;
+  border: 1px solid rgba(6, 182, 212, 0.3) !important;
+  color: #e5e7eb !important;
+  margin: 0 2px !important;
+  border-radius: 6px !important;
+}
+
+:deep(.el-pagination .el-pager li:hover) {
+  background: rgba(6, 182, 212, 0.2) !important;
+  border-color: rgba(6, 182, 212, 0.5) !important;
+}
+
+:deep(.el-pagination .el-pager li.is-active) {
+  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%) !important;
+  border-color: #06b6d4 !important;
+  color: white !important;
+}
+
+:deep(.el-pagination .btn-prev),
+:deep(.el-pagination .btn-next) {
+  background: rgba(31, 41, 55, 0.8) !important;
+  border: 1px solid rgba(6, 182, 212, 0.3) !important;
+  color: #e5e7eb !important;
+  border-radius: 6px !important;
+}
+
+:deep(.el-pagination .btn-prev:hover),
+:deep(.el-pagination .btn-next:hover) {
+  background: rgba(6, 182, 212, 0.2) !important;
+  border-color: rgba(6, 182, 212, 0.5) !important;
+}
+
+:deep(.el-dialog) {
+  background: rgba(31, 41, 55, 0.95) !important;
+  border: 1px solid rgba(6, 182, 212, 0.3) !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+:deep(.el-dialog__header) {
+  background: rgba(6, 182, 212, 0.1) !important;
+  border-bottom: 1px solid rgba(6, 182, 212, 0.3) !important;
+  border-radius: 12px 12px 0 0 !important;
+}
+
+:deep(.el-dialog__title) {
+  color: #06b6d4 !important;
+  font-weight: 600 !important;
+}
+
+:deep(.el-dialog__body) {
+  background: transparent !important;
+  color: #e5e7eb !important;
+}
+
 /* 卡片头部美化 */
 .el-card__header {
-  background: #409eff;
-  color: #333;
-  border-radius: 4px 4px 0 0;
+  background: rgba(6, 182, 212, 0.1);
+  border-bottom: 1px solid rgba(6, 182, 212, 0.3);
   padding: 15px 20px;
+  font-weight: 600;
+  color: #06b6d4;
+  text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
 }
 
 .el-card__header h3 {
-  color: #333;
+  color: #06b6d4;
   margin: 0;
   font-weight: 600;
-}
-
-/* 对话框美化 */
-.el-dialog {
-  border-radius: 4px;
-}
-
-.el-dialog__header {
-  background: #409eff;
-  color: #333;
-  padding: 15px 20px;
-}
-
-.el-dialog__title {
-  color: #333;
-  font-weight: 600;
-}
-
-.el-dialog__body {
-  padding: 20px;
 }
 
 /* 响应式布局 */

@@ -412,8 +412,26 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.content-management {
+.content-management-container {
   padding: 20px;
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  min-height: 100vh;
+  position: relative;
+}
+
+.content-management-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    linear-gradient(rgba(6, 182, 212, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(6, 182, 212, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  animation: grid-move 20s linear infinite;
 }
 
 .page-header {
@@ -433,6 +451,8 @@ onMounted(() => {
 .stats-title {
   font-size: 16px;
   font-weight: 600;
+  color: #06b6d4;
+  text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
 }
 
 .stats-grid {
@@ -441,13 +461,23 @@ onMounted(() => {
 
 .stat-card {
   text-align: center;
+  background: rgba(6, 182, 212, 0.1) !important;
+  border: 1px solid rgba(6, 182, 212, 0.3) !important;
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  box-shadow: 0 8px 25px rgba(6, 182, 212, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border-color: rgba(6, 182, 212, 0.6) !important;
+  transform: translateY(-2px);
 }
 
 .stat-card .el-statistic {
   --el-statistic-content-font-size: 28px;
 }
 
-.filters-card {
+.search-card {
   margin-bottom: 20px;
 }
 
@@ -465,17 +495,26 @@ onMounted(() => {
 .list-title {
   font-size: 16px;
   font-weight: 600;
+  color: #06b6d4;
+  text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
 }
 
 .loading-container,
 .empty-container {
   padding: 40px 0;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  border: 1px solid rgba(6, 182, 212, 0.3);
 }
 
 .notifications-container {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(6, 182, 212, 0.3);
 }
 
 .pagination-container {
@@ -505,9 +544,159 @@ onMounted(() => {
   word-break: break-word;
 }
 
+/* 网格动画 */
+@keyframes grid-move {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(50px, 50px);
+  }
+}
+
+/* Element Plus 组件深度样式覆盖 */
+:deep(.el-card) {
+  background: rgba(31, 41, 55, 0.8) !important;
+  border: 1px solid rgba(6, 182, 212, 0.3) !important;
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+:deep(.el-card:hover) {
+  box-shadow: 0 8px 25px rgba(6, 182, 212, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border-color: rgba(6, 182, 212, 0.5) !important;
+}
+
+:deep(.el-card__header) {
+  background: rgba(6, 182, 212, 0.1);
+  border-bottom: 1px solid rgba(6, 182, 212, 0.3);
+  color: #06b6d4;
+  font-weight: 600;
+}
+
+:deep(.el-card__body) {
+  background: transparent;
+  color: #e5e7eb;
+}
+
+:deep(.el-statistic__content) {
+  color: #06b6d4 !important;
+  font-weight: 600;
+}
+
+:deep(.el-statistic__number) {
+  color: #06b6d4 !important;
+  text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+}
+
+:deep(.el-statistic__title) {
+  color: #e5e7eb !important;
+  font-weight: 500;
+}
+
+:deep(.el-icon) {
+  color: #06b6d4 !important;
+}
+
+:deep(.el-button--primary) {
+  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+  border-color: #06b6d4;
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+}
+
+:deep(.el-button--primary:hover) {
+  background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.6);
+}
+
+:deep(.el-input__wrapper) {
+  background: rgba(31, 41, 55, 0.8) !important;
+  border: 1px solid rgba(6, 182, 212, 0.3) !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+:deep(.el-input__wrapper:hover) {
+  border-color: rgba(6, 182, 212, 0.5) !important;
+}
+
+:deep(.el-input__wrapper.is-focus) {
+  border-color: #06b6d4 !important;
+  box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+:deep(.el-input__inner) {
+  color: #e5e7eb !important;
+  background: transparent !important;
+}
+
+:deep(.el-input__inner::placeholder) {
+  color: #9ca3af !important;
+}
+
+:deep(.el-select .el-input__wrapper) {
+  background: rgba(31, 41, 55, 0.8) !important;
+}
+
+:deep(.el-pagination) {
+  background: rgba(31, 41, 55, 0.8);
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+}
+
+:deep(.el-pagination .el-pager li) {
+  background: rgba(6, 182, 212, 0.1);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  color: #e5e7eb;
+}
+
+:deep(.el-pagination .el-pager li:hover) {
+  background: rgba(6, 182, 212, 0.2);
+  border-color: rgba(6, 182, 212, 0.5);
+}
+
+:deep(.el-pagination .el-pager li.is-active) {
+  background: #06b6d4;
+  border-color: #06b6d4;
+  color: #ffffff;
+}
+
+:deep(.el-dialog) {
+  background: rgba(31, 41, 55, 0.95) !important;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+:deep(.el-dialog__header) {
+  background: rgba(6, 182, 212, 0.1);
+  border-bottom: 1px solid rgba(6, 182, 212, 0.3);
+  color: #06b6d4;
+}
+
+:deep(.el-dialog__body) {
+  background: transparent;
+  color: #e5e7eb;
+}
+
+:deep(.el-form-item__label) {
+  color: #e5e7eb !important;
+}
+
+:deep(.el-textarea__inner) {
+  background: rgba(31, 41, 55, 0.8) !important;
+  border: 1px solid rgba(6, 182, 212, 0.3) !important;
+  color: #e5e7eb !important;
+}
+
+:deep(.el-switch.is-checked .el-switch__core) {
+  background-color: #06b6d4 !important;
+  border-color: #06b6d4 !important;
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
-  .content-management {
+  .content-management-container {
     padding: 16px;
   }
 

@@ -115,11 +115,11 @@ const occupancyRate = computed(() => overview.value.occupancy_rate.toFixed(1))
 const recentActivities = computed(() => {
   if (recentDetectionRecords.value && recentDetectionRecords.value.records) {
     return recentDetectionRecords.value.records.map(record => {
-      const time = new Date(record.detection_time).toLocaleTimeString('zh-CN', { 
-        hour: '2-digit', 
-        minute: '2-digit' 
+      const time = new Date(record.detection_time).toLocaleTimeString('zh-CN', {
+        hour: '2-digit',
+        minute: '2-digit'
       })
-      
+
       // 根据detection_type确定动作
       let action = '未知'
       if (record.detection_type === 'vehicle_enter') {
@@ -129,10 +129,10 @@ const recentActivities = computed(() => {
       } else if (record.detection_type === 'license_plate_recognition') {
         action = '识别'
       }
-      
+
       // 使用API返回的vehicle_type_display或进行映射
       const vehicle = record.vehicle_type_display || record.vehicle_type
-      
+
       return {
         time,
         action,
@@ -142,7 +142,7 @@ const recentActivities = computed(() => {
       }
     })
   }
-  
+
   // 后备数据
   return [
     { time: '13:33', action: '离开', vehicle: 'SUV', space: 'A01', licensePlate: '川E33333' },
@@ -512,95 +512,95 @@ const loadRecentDetectionRecords = async () => {
     console.error('加载最近检测记录失败:', error)
     // 使用模拟数据作为后备
     recentDetectionRecords.value = {
-       records: [
-         {
-           id: 1,
-           detection_time: '2024-01-15T13:33:00Z',
-           detection_type: 'vehicle_exit',
-           detection_type_display: 'vehicle_exit',
-           vehicle_type: 'suv',
-           vehicle_type_display: 'SUV',
-           confidence: 0.95,
-           license_plate: '川E33333',
-           image_url: null,
-           spot: 1,
-           spot_info: 'A区-A01'
-         },
-         {
-           id: 2,
-           detection_time: '2024-01-15T13:28:00Z',
-           detection_type: 'vehicle_enter',
-           detection_type_display: 'vehicle_enter',
-           vehicle_type: 'car',
-           vehicle_type_display: '轿车',
-           confidence: 0.88,
-           license_plate: '粤D22222',
-           image_url: null,
-           spot: 3,
-           spot_info: 'B区-B03'
-         },
-         {
-           id: 3,
-           detection_time: '2024-01-15T13:25:00Z',
-           detection_type: 'vehicle_exit',
-           detection_type_display: 'vehicle_exit',
-           vehicle_type: 'truck',
-           vehicle_type_display: '货车',
-           confidence: 0.92,
-           license_plate: '沪C11111',
-           image_url: null,
-           spot: 5,
-           spot_info: 'A区-A05'
-         },
-         {
-           id: 4,
-           detection_time: '2024-01-15T13:20:00Z',
-           detection_type: 'vehicle_enter',
-           detection_type_display: 'vehicle_enter',
-           vehicle_type: 'suv',
-           vehicle_type_display: 'SUV',
-           confidence: 0.90,
-           license_plate: '京B67890',
-           image_url: null,
-           spot: 2,
-           spot_info: 'A区-A02'
-         },
-         {
-           id: 5,
-           detection_time: '2024-01-15T13:15:00Z',
-           detection_type: 'vehicle_exit',
-           detection_type_display: 'vehicle_exit',
-           vehicle_type: 'car',
-           vehicle_type_display: '轿车',
-           confidence: 0.87,
-           license_plate: '京A12345',
-           image_url: null,
-           spot: 1,
-           spot_info: 'B区-B01'
-         },
-         {
-           id: 6,
-           detection_time: '2024-01-15T13:10:00Z',
-           detection_type: 'vehicle_enter',
-           detection_type_display: 'vehicle_enter',
-           vehicle_type: 'mpv',
-           vehicle_type_display: 'MPV',
-           confidence: 0.93,
-           license_plate: '川E33333',
-           image_url: null,
-           spot: 4,
-           spot_info: 'B区-B04'
-         }
-       ],
-       pagination: {
-         current_page: 1,
-         total_pages: 1,
-         total_count: 6,
-         page_size: 10,
-         has_next: false,
-         has_previous: false
-       }
-     }
+      records: [
+        {
+          id: 1,
+          detection_time: '2024-01-15T13:33:00Z',
+          detection_type: 'vehicle_exit',
+          detection_type_display: 'vehicle_exit',
+          vehicle_type: 'suv',
+          vehicle_type_display: 'SUV',
+          confidence: 0.95,
+          license_plate: '川E33333',
+          image_url: null,
+          spot: 1,
+          spot_info: 'A区-A01'
+        },
+        {
+          id: 2,
+          detection_time: '2024-01-15T13:28:00Z',
+          detection_type: 'vehicle_enter',
+          detection_type_display: 'vehicle_enter',
+          vehicle_type: 'car',
+          vehicle_type_display: '轿车',
+          confidence: 0.88,
+          license_plate: '粤D22222',
+          image_url: null,
+          spot: 3,
+          spot_info: 'B区-B03'
+        },
+        {
+          id: 3,
+          detection_time: '2024-01-15T13:25:00Z',
+          detection_type: 'vehicle_exit',
+          detection_type_display: 'vehicle_exit',
+          vehicle_type: 'truck',
+          vehicle_type_display: '货车',
+          confidence: 0.92,
+          license_plate: '沪C11111',
+          image_url: null,
+          spot: 5,
+          spot_info: 'A区-A05'
+        },
+        {
+          id: 4,
+          detection_time: '2024-01-15T13:20:00Z',
+          detection_type: 'vehicle_enter',
+          detection_type_display: 'vehicle_enter',
+          vehicle_type: 'suv',
+          vehicle_type_display: 'SUV',
+          confidence: 0.90,
+          license_plate: '京B67890',
+          image_url: null,
+          spot: 2,
+          spot_info: 'A区-A02'
+        },
+        {
+          id: 5,
+          detection_time: '2024-01-15T13:15:00Z',
+          detection_type: 'vehicle_exit',
+          detection_type_display: 'vehicle_exit',
+          vehicle_type: 'car',
+          vehicle_type_display: '轿车',
+          confidence: 0.87,
+          license_plate: '京A12345',
+          image_url: null,
+          spot: 1,
+          spot_info: 'B区-B01'
+        },
+        {
+          id: 6,
+          detection_time: '2024-01-15T13:10:00Z',
+          detection_type: 'vehicle_enter',
+          detection_type_display: 'vehicle_enter',
+          vehicle_type: 'mpv',
+          vehicle_type_display: 'MPV',
+          confidence: 0.93,
+          license_plate: '川E33333',
+          image_url: null,
+          spot: 4,
+          spot_info: 'B区-B04'
+        }
+      ],
+      pagination: {
+        current_page: 1,
+        total_pages: 1,
+        total_count: 6,
+        page_size: 10,
+        has_next: false,
+        has_previous: false
+      }
+    }
   }
 }
 
@@ -756,19 +756,16 @@ onMounted(async () => {
             <span class="text-lg font-medium">{{ dashboardData.title }}</span>
             <Motion :initial="{ scale: 0.8, opacity: 0 }" :animate="{ scale: 1, opacity: 1 }"
               :whileHover="{ scale: 1.05 }" :transition="{ duration: 0.3, delay: 0.5 }">
-              <el-button type="primary" size="small" :loading="loading" @click="refreshData">{{ dashboardData.refreshButton }}</el-button>
+              <el-button type="primary" size="small" :loading="loading" @click="refreshData">{{
+                dashboardData.refreshButton }}</el-button>
             </Motion>
           </div>
         </template>
 
         <!-- 统计卡片 -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-          <Motion
-            v-for="(card, index) in dashboardData.statsCards"
-            :key="card.id"
-            :initial="statsCardVariants.initial"
-            :animate="statsCardVariants.animate"
-            :whileHover="statsCardVariants.whileHover"
+          <Motion v-for="(card, index) in dashboardData.statsCards" :key="card.id" :initial="statsCardVariants.initial"
+            :animate="statsCardVariants.animate" :whileHover="statsCardVariants.whileHover"
             :transition="{ ...statsCardVariants.transition, delay: 0.4 + index * 0.1 }"
             :class="`${card.bgColor} p-6 rounded-lg cursor-pointer`">
             <div class="flex items-center justify-between">
@@ -780,8 +777,8 @@ onMounted(async () => {
                 </Motion>
               </div>
               <Motion :initial="iconVariants.initial" :animate="iconVariants.animate"
-                :whileHover="iconVariants.whileHover" :transition="{ ...iconVariants.transition, delay: 0.5 + index * 0.1 }"
-                :class="card.iconColor">
+                :whileHover="iconVariants.whileHover"
+                :transition="{ ...iconVariants.transition, delay: 0.5 + index * 0.1 }" :class="card.iconColor">
                 <el-icon size="32">
                   <component :is="card.icon" />
                 </el-icon>
@@ -801,31 +798,25 @@ onMounted(async () => {
         </template>
 
         <div class="parking-layout">
-           <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-             <div v-for="area in parkingLayout.areas" :key="area.id" class="area-section">
-               <h3 class="text-center text-gray-600 font-medium mb-4">{{ area.name }}</h3>
-               <div class="flex justify-center gap-2 flex-wrap">
-                 <Motion
-                   v-for="(space, index) in area.spaces"
-                   :key="space.id"
-                   :initial="{ opacity: 0, scale: 0.8 }"
-                   :animate="{ opacity: 1, scale: 1 }"
-                   :whileHover="{ scale: 1.05, y: -2 }"
-                   :transition="{ duration: 0.3, delay: 0.8 + index * 0.1 }"
-                   class="parking-space"
-                   :class="{
-                     'occupied': space.status === 'occupied',
-                     'available': space.status === 'available'
-                   }">
-                   <div class="space-content">
-                     <div class="space-id">{{ space.id }}</div>
-                     <div v-if="space.vehicle" class="vehicle-info">{{ space.vehicle }}</div>
-                   </div>
-                 </Motion>
-               </div>
-             </div>
-           </div>
-         </div>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div v-for="area in parkingLayout.areas" :key="area.id" class="area-section">
+              <h3 class="text-center text-gray-600 font-medium mb-4">{{ area.name }}</h3>
+              <div class="flex justify-center gap-2 flex-wrap">
+                <Motion v-for="(space, index) in area.spaces" :key="space.id" :initial="{ opacity: 0, scale: 0.8 }"
+                  :animate="{ opacity: 1, scale: 1 }" :whileHover="{ scale: 1.05, y: -2 }"
+                  :transition="{ duration: 0.3, delay: 0.8 + index * 0.1 }" class="parking-space" :class="{
+                    'occupied': space.status === 'occupied',
+                    'available': space.status === 'available'
+                  }">
+                  <div class="space-content">
+                    <div class="space-id">{{ space.id }}</div>
+                    <div v-if="space.vehicle" class="vehicle-info">{{ space.vehicle }}</div>
+                  </div>
+                </Motion>
+              </div>
+            </div>
+          </div>
+        </div>
       </el-card>
     </Motion>
 
@@ -845,7 +836,9 @@ onMounted(async () => {
                 <div class="text-sm text-gray-500">总检测次数</div>
               </div>
               <div class="text-center">
-                <div class="text-2xl font-bold text-green-600">{{ (detectionStatsData.avg_confidence * 100).toFixed(1) }}%</div>
+                <div class="text-2xl font-bold text-green-600">{{ (detectionStatsData.avg_confidence * 100).toFixed(1)
+                  }}%
+                </div>
                 <div class="text-sm text-gray-500">平均置信度</div>
               </div>
             </div>
@@ -884,17 +877,16 @@ onMounted(async () => {
             </div>
             <div class="grid grid-cols-3 gap-2 text-sm">
               <div v-for="method in paymentStatsData.payment_method_stats" :key="method.payment_method"
-                   class="text-center p-2 rounded"
-                   :class="{
-                     'bg-green-50': method.payment_method === 'wechat',
-                     'bg-blue-50': method.payment_method === 'alipay',
-                     'bg-gray-50': method.payment_method === 'cash'
-                   }">
+                class="text-center p-2 rounded" :class="{
+                  'bg-green-50': method.payment_method === 'wechat',
+                  'bg-blue-50': method.payment_method === 'alipay',
+                  'bg-gray-50': method.payment_method === 'cash'
+                }">
                 <div class="font-semibold">{{ method.count }}</div>
                 <div class="text-gray-600">
                   {{ method.payment_method === 'wechat' ? '微信支付' :
-                     method.payment_method === 'alipay' ? '支付宝' :
-                     method.payment_method === 'cash' ? '现金' : method.payment_method }}
+                    method.payment_method === 'alipay' ? '支付宝' :
+                      method.payment_method === 'cash' ? '现金' : method.payment_method }}
                 </div>
                 <div class="text-xs text-gray-500">¥{{ method.revenue.toFixed(2) }}</div>
               </div>
@@ -939,7 +931,8 @@ onMounted(async () => {
                 <span class="font-medium">{{ systemHealthData.memory_usage }}%</span>
               </div>
               <div class="w-full bg-gray-200 rounded-full h-2">
-                <div class="bg-green-600 h-2 rounded-full" :style="{ width: systemHealthData.memory_usage + '%' }"></div>
+                <div class="bg-green-600 h-2 rounded-full" :style="{ width: systemHealthData.memory_usage + '%' }">
+                </div>
               </div>
             </div>
             <div class="grid grid-cols-2 gap-4 text-sm">
@@ -974,10 +967,7 @@ onMounted(async () => {
               <div class="flex items-center justify-between text-sm">
                 <span>{{ area.occupied_spots }}/{{ area.total_spots }}</span>
                 <div class="w-20 bg-gray-200 rounded-full h-2">
-                  <div
-                    class="bg-blue-600 h-2 rounded-full"
-                    :style="{ width: area.occupancy_rate + '%' }"
-                  ></div>
+                  <div class="bg-blue-600 h-2 rounded-full" :style="{ width: area.occupancy_rate + '%' }"></div>
                 </div>
               </div>
             </div>
@@ -1025,22 +1015,17 @@ onMounted(async () => {
           </template>
           <div class="h-80 overflow-y-auto">
             <div class="space-y-3">
-              <Motion
-                v-for="(activity, index) in recentActivities"
-                :key="index"
-                :initial="{ opacity: 0, x: -20 }"
-                :animate="{ opacity: 1, x: 0 }"
-                :transition="{ duration: 0.3, delay: 1.0 + index * 0.1 }"
+              <Motion v-for="(activity, index) in recentActivities" :key="index" :initial="{ opacity: 0, x: -20 }"
+                :animate="{ opacity: 1, x: 0 }" :transition="{ duration: 0.3, delay: 1.0 + index * 0.1 }"
                 class="activity-item p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center space-x-3">
                     <span class="text-sm text-gray-500 font-mono">{{ activity.time }}</span>
-                    <span class="text-sm font-medium"
-                      :class="{
-                        'text-green-600': activity.action === '进入',
-                        'text-red-600': activity.action === '离开',
-                        'text-orange-600': activity.action === '识别'
-                      }">
+                    <span class="text-sm font-medium" :class="{
+                      'text-green-600': activity.action === '进入',
+                      'text-red-600': activity.action === '离开',
+                      'text-orange-600': activity.action === '识别'
+                    }">
                       {{ activity.vehicle }}{{ activity.action }}
                     </span>
                     <span class="text-sm text-purple-600 font-medium">{{ activity.licensePlate }}</span>
@@ -1062,26 +1047,58 @@ onMounted(async () => {
 <style scoped>
 .dashboard {
   width: 100%;
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  min-height: 100vh;
+  padding: 20px;
+  position: relative;
+}
+
+.dashboard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    linear-gradient(rgba(6, 182, 212, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(6, 182, 212, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  animation: grid-move 20s linear infinite;
 }
 
 /* 统计卡片增强样式 */
 .cursor-pointer {
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
+  background: rgba(6, 182, 212, 0.1) !important;
+  border: 1px solid rgba(6, 182, 212, 0.3) !important;
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  color: #e5e7eb !important;
 }
 
 .cursor-pointer:hover {
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 25px rgba(6, 182, 212, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border-color: rgba(6, 182, 212, 0.6) !important;
+  transform: translateY(-2px);
 }
 
 /* 停车位布局样式 */
 .parking-layout {
   padding: 20px 0;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  border: 1px solid rgba(6, 182, 212, 0.3);
 }
 
 .area-section {
   /* 移除margin-bottom，使用grid gap代替 */
+}
+
+.area-section h3 {
+  color: #06b6d4 !important;
+  text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
 }
 
 .parking-space {
@@ -1093,24 +1110,27 @@ onMounted(async () => {
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 2px solid transparent;
 }
 
 .parking-space.available {
-  background-color: #10b981;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.8) 0%, rgba(5, 150, 105, 0.9) 100%);
   color: white;
-  border: 2px solid #059669;
+  border-color: #10b981;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
 }
 
 .parking-space.occupied {
-  background-color: #ef4444;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.8) 0%, rgba(220, 38, 38, 0.9) 100%);
   color: white;
-  border: 2px solid #dc2626;
+  border-color: #ef4444;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
 }
 
 .parking-space:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(6, 182, 212, 0.3);
 }
 
 .space-content {
@@ -1135,6 +1155,7 @@ onMounted(async () => {
 
 /* 响应式动画优化 */
 @media (prefers-reduced-motion: reduce) {
+
   .cursor-pointer,
   .parking-space {
     transition: none;
@@ -1142,32 +1163,96 @@ onMounted(async () => {
 }
 
 /* 增强卡片视觉效果 */
-.el-card {
+:deep(.el-card) {
   border-radius: 12px;
-  border: none;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  background: rgba(31, 41, 55, 0.8) !important;
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
 }
 
-.el-card:hover {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+:deep(.el-card:hover) {
+  box-shadow: 0 8px 25px rgba(6, 182, 212, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border-color: rgba(6, 182, 212, 0.5);
+}
+
+:deep(.el-card__header) {
+  background: rgba(6, 182, 212, 0.1);
+  border-bottom: 1px solid rgba(6, 182, 212, 0.3);
+  color: #06b6d4;
+  font-weight: 600;
+}
+
+:deep(.el-card__body) {
+  background: transparent;
+  color: #e5e7eb;
 }
 
 /* 活动项样式 */
 .activity-item {
   border-left: 3px solid transparent;
   transition: all 0.3s ease;
+  background: rgba(6, 182, 212, 0.05) !important;
+  border: 1px solid rgba(6, 182, 212, 0.2);
+  color: #e5e7eb;
 }
 
 .activity-item:hover {
-  border-left-color: #409eff;
-  transform: translateX(2px);
+  border-left-color: #06b6d4;
+  background: rgba(6, 182, 212, 0.15) !important;
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+  transform: translateX(3px);
+}
+
+/* 网格动画 */
+@keyframes grid-move {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(50px, 50px);
+  }
+}
+
+/* Element Plus 组件深度样式覆盖 */
+:deep(.el-row) {
+  margin: 0 !important;
+}
+
+:deep(.el-col) {
+  padding: 10px;
+}
+
+:deep(.el-statistic__content) {
+  color: #06b6d4 !important;
+  font-weight: 600;
+}
+
+:deep(.el-statistic__number) {
+  color: #06b6d4 !important;
+  text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+}
+
+:deep(.el-statistic__title) {
+  color: #e5e7eb !important;
+  font-weight: 500;
+}
+
+:deep(.el-icon) {
+  color: #06b6d4 !important;
 }
 
 /* 响应式优化 */
 @media (max-width: 768px) {
+  .dashboard {
+    padding: 10px;
+  }
+
   .parking-space {
     width: 60px;
     height: 60px;
+    font-size: 12px;
   }
 
   .space-id {
@@ -1176,6 +1261,14 @@ onMounted(async () => {
 
   .vehicle-info {
     font-size: 8px;
+  }
+
+  .activity-item {
+    padding: 8px;
+  }
+
+  :deep(.el-col) {
+    padding: 5px;
   }
 }
 </style>

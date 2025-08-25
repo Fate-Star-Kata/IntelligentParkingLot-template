@@ -74,14 +74,20 @@ watch(() => route.path, () => {
 </script>
 
 <template>
-  <div class="admin-navbar h-full">
+  <div class="admin-navbar h-full bg-gray-800">
     <!-- Logo -->
-    <div class="logo-container flex items-center justify-center h-16 border-b border-gray-100">
+    <div class="logo-container flex items-center justify-center h-16 border-b-2 border-cyan-500">
       <div v-if="!isCollapse" class="flex items-center">
-        <span class="text-gray-800 text-lg font-semibold">HZ Admin</span>
+        <div
+          class="w-10 h-10 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center mr-3">
+          <el-icon size="20" class="text-white">
+            <Platform />
+          </el-icon>
+        </div>
+        <span class="text-cyan-400 text-lg font-bold">工控系统</span>
       </div>
       <div v-else class="flex items-center">
-        <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+        <div class="w-8 h-8 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center">
           <el-icon size="18" class="text-white">
             <Platform />
           </el-icon>
@@ -92,7 +98,7 @@ watch(() => route.path, () => {
     <!-- 菜单 -->
     <div class="menu-container flex-1 overflow-y-auto">
       <el-menu :default-active="activeMenu" :default-openeds="defaultOpeneds" :collapse="isCollapse"
-        :unique-opened="true" background-color="#ffffff" text-color="#64748b" active-text-color="#3b82f6"
+        :unique-opened="true" background-color="#1f2937" text-color="#9ca3af" active-text-color="#06b6d4"
         class="border-none">
         <template v-for="item in menuItems" :key="item.id">
           <template v-if="!item.hide">
@@ -128,10 +134,10 @@ watch(() => route.path, () => {
     </div>
 
     <!-- 底部 -->
-    <div v-if="!isCollapse" class="footer-info p-4 border-t border-gray-100">
-      <div class="text-center text-gray-500 text-xs">
-        <div class="font-medium">HZ System v1.0.0</div>
-        <div class="mt-1 text-gray-400">© 2024 HZ Tech</div>
+    <div v-if="!isCollapse" class="footer-info p-4 border-t-2 border-cyan-500">
+      <div class="text-center text-gray-400 text-xs">
+        <div class="font-medium text-cyan-400">工控系统 v1.0.0</div>
+        <div class="mt-1 text-gray-500">© 2024 Industrial Control</div>
       </div>
     </div>
   </div>
@@ -140,38 +146,47 @@ watch(() => route.path, () => {
 
 <style scoped>
 .admin-navbar {
-  background-color: #ffffff;
+  background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
   display: flex;
   flex-direction: column;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.06);
+  box-shadow: 2px 0 12px rgba(6, 182, 212, 0.2), inset -1px 0 0 rgba(6, 182, 212, 0.3);
+  border-right: 1px solid rgba(6, 182, 212, 0.3);
+}
+
+.logo-container {
+  background: rgba(6, 182, 212, 0.1);
+  box-shadow: 0 2px 8px rgba(6, 182, 212, 0.2);
 }
 
 .menu-container {
   flex: 1;
   overflow-y: auto;
   padding: 8px 0;
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .menu-container::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
 
 .menu-container::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(6, 182, 212, 0.1);
+  border-radius: 3px;
 }
 
 .menu-container::-webkit-scrollbar-thumb {
-  background: #e2e8f0;
-  border-radius: 2px;
+  background: rgba(6, 182, 212, 0.5);
+  border-radius: 3px;
 }
 
 .menu-container::-webkit-scrollbar-thumb:hover {
-  background: #cbd5e1;
+  background: rgba(6, 182, 212, 0.7);
 }
 
 :deep(.el-menu) {
   border-right: none;
   padding: 0 12px;
+  background: transparent !important;
 }
 
 :deep(.el-menu-item) {
@@ -179,7 +194,9 @@ watch(() => route.path, () => {
   line-height: 44px;
   margin: 2px 0;
   border-radius: 8px;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  background: rgba(6, 182, 212, 0.05) !important;
 }
 
 :deep(.el-sub-menu .el-sub-menu__title) {
@@ -187,54 +204,69 @@ watch(() => route.path, () => {
   line-height: 44px;
   margin: 2px 0;
   border-radius: 8px;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  background: rgba(6, 182, 212, 0.05) !important;
 }
 
 :deep(.el-menu-item:hover) {
-  background-color: #f1f5f9 !important;
-  color: #3b82f6 !important;
-  transform: translateX(2px);
+  background: rgba(6, 182, 212, 0.2) !important;
+  color: #06b6d4 !important;
+  border-color: rgba(6, 182, 212, 0.5);
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
+  transform: translateX(3px);
 }
 
 :deep(.el-menu-item.is-active) {
-  background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%) !important;
-  color: #fff !important;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.3) 0%, rgba(8, 145, 178, 0.4) 100%) !important;
+  color: #06b6d4 !important;
+  border-color: #06b6d4;
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 :deep(.el-sub-menu__title:hover) {
-  background-color: #f1f5f9 !important;
-  color: #3b82f6 !important;
-  transform: translateX(2px);
+  background: rgba(6, 182, 212, 0.2) !important;
+  color: #06b6d4 !important;
+  border-color: rgba(6, 182, 212, 0.5);
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
+  transform: translateX(3px);
 }
 
 :deep(.el-sub-menu .el-menu-item) {
   margin-left: 20px;
-  background-color: transparent;
+  background: rgba(6, 182, 212, 0.03) !important;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   height: 36px !important;
   line-height: 36px !important;
+  border: 1px solid transparent;
+  border-radius: 6px;
 }
 
 :deep(.el-sub-menu .el-menu-item:hover) {
-  background-color: #f8fafc !important;
-  color: #3b82f6 !important;
+  background: rgba(6, 182, 212, 0.15) !important;
+  color: #06b6d4 !important;
+  border-color: rgba(6, 182, 212, 0.4);
+  box-shadow: 0 0 8px rgba(6, 182, 212, 0.2);
 }
 
 :deep(.el-sub-menu .el-menu-item.is-active) {
-  background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%) !important;
-  color: #fff !important;
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.25) 0%, rgba(8, 145, 178, 0.3) 100%) !important;
+  color: #06b6d4 !important;
+  border-color: #06b6d4;
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.4);
 }
 
 :deep(.el-menu-item .el-icon) {
   margin-right: 8px;
   font-size: 16px;
+  color: inherit;
 }
 
 .footer-info {
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(17, 24, 39, 0.8) 100%);
+  box-shadow: 0 -2px 8px rgba(6, 182, 212, 0.2);
 }
 </style>

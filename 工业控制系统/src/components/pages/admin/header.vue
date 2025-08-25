@@ -77,11 +77,12 @@ function toggleFullscreen() {
 </script>
 
 <template>
-  <div class="admin-header flex items-center justify-between px-6 h-full">
+  <div class="admin-header flex items-center justify-between px-6 h-full bg-gray-800 text-white">
     <!-- 左侧区域 -->
     <div class="flex items-center">
       <!-- 菜单切换按钮 -->
-      <el-button type="text" size="large" @click="handleToggleSidebar" class="mr-4">
+      <el-button type="text" size="large" @click="handleToggleSidebar"
+        class="mr-4 text-cyan-400 hover:text-cyan-300 hover:bg-gray-700">
         <el-icon size="18">
           <Fold v-if="!isCollapse" />
           <Expand v-else />
@@ -89,8 +90,9 @@ function toggleFullscreen() {
       </el-button>
 
       <!-- 面包屑导航 -->
-      <el-breadcrumb separator="/" class="text-sm">
-        <el-breadcrumb-item v-for="(item, index) in breadcrumbs" :key="index" :to="item.path || undefined">
+      <el-breadcrumb separator="/" class="text-sm text-gray-300">
+        <el-breadcrumb-item v-for="(item, index) in breadcrumbs" :key="index" :to="item.path || undefined"
+          class="text-gray-300 hover:text-cyan-400">
           {{ item.label }}
         </el-breadcrumb-item>
       </el-breadcrumb>
@@ -99,11 +101,14 @@ function toggleFullscreen() {
     <!-- 右侧区域 -->
     <div class="flex items-center space-x-4">
       <!-- 搜索框 -->
-      <el-input placeholder="搜索菜单" size="small" style="width: 200px" prefix-icon="Search" clearable />
+      <el-input placeholder="搜索菜单" size="small"
+        style="width: 200px; --el-input-bg-color: #374151; --el-input-border-color: #06b6d4; --el-input-text-color: white; --el-input-placeholder-color: #9ca3af;"
+        prefix-icon="Search" clearable />
 
       <!-- 全屏按钮 -->
       <el-tooltip content="全屏" placement="bottom">
-        <el-button type="text" size="large" @click="toggleFullscreen">
+        <el-button type="text" size="large" @click="toggleFullscreen"
+          class="text-cyan-400 hover:text-cyan-300 hover:bg-gray-700">
           <el-icon size="18">
             <FullScreen />
           </el-icon>
@@ -113,7 +118,7 @@ function toggleFullscreen() {
       <!-- 通知按钮 -->
       <el-tooltip content="通知" placement="bottom">
         <el-badge :value="5" class="item" :offset="[-10, 10]">
-          <el-button type="text" size="large">
+          <el-button type="text" size="large" class="text-cyan-400 hover:text-cyan-300 hover:bg-gray-700">
             <el-icon size="18">
               <Bell />
             </el-icon>
@@ -123,13 +128,13 @@ function toggleFullscreen() {
 
       <!-- 用户信息下拉菜单 -->
       <el-dropdown @command="handleCommand" trigger="click">
-        <div class="flex items-center cursor-pointer hover:bg-gray-50 px-2 py-1 rounded">
-          <el-avatar :size="32" :src="userInfo.avatar" class="mr-2" />
+        <div class="flex items-center cursor-pointer hover:bg-gray-700 px-2 py-1 rounded border border-cyan-500/30">
+          <el-avatar :size="32" :src="userInfo.avatar" class="mr-2 border-2 border-cyan-400" />
           <div class="text-sm">
-            <div class="font-medium text-gray-900">{{ userInfo.name }}</div>
-            <div class="text-gray-500 text-xs">{{ userInfo.role }}</div>
+            <div class="font-medium text-cyan-400">{{ userInfo.name }}</div>
+            <div class="text-gray-400 text-xs">{{ userInfo.role }}</div>
           </div>
-          <el-icon class="ml-2 text-gray-400">
+          <el-icon class="ml-2 text-cyan-400">
             <ArrowDown />
           </el-icon>
         </div>
@@ -163,10 +168,48 @@ function toggleFullscreen() {
 
 <style scoped>
 .admin-header {
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 2px solid #06b6d4;
+  box-shadow: 0 2px 8px rgba(0, 255, 255, 0.1);
 }
 
 .item {
   margin-right: 8px;
+}
+
+/* Element Plus 组件深色主题覆盖 */
+:deep(.el-breadcrumb__item) {
+  color: #9ca3af;
+}
+
+:deep(.el-breadcrumb__item:hover) {
+  color: #06b6d4;
+}
+
+:deep(.el-breadcrumb__separator) {
+  color: #6b7280;
+}
+
+:deep(.el-dropdown-menu) {
+  background-color: #1f2937;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+}
+
+:deep(.el-dropdown-menu__item) {
+  color: #d1d5db;
+}
+
+:deep(.el-dropdown-menu__item:hover) {
+  background-color: #374151;
+  color: #06b6d4;
+}
+
+:deep(.el-badge__content) {
+  background-color: #06b6d4;
+  border-color: #06b6d4;
+}
+
+:deep(.el-tooltip__popper) {
+  background-color: #1f2937;
+  border: 1px solid rgba(6, 182, 212, 0.3);
 }
 </style>

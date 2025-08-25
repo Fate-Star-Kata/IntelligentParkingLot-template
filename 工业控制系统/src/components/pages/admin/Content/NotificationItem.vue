@@ -219,6 +219,18 @@ const deleteNotification = async () => {
 <style scoped>
 .notification-item {
   margin-bottom: 16px;
+  background: rgba(31, 41, 55, 0.8);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(6, 182, 212, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.notification-item:hover {
+  box-shadow: 0 8px 25px rgba(6, 182, 212, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border-color: rgba(6, 182, 212, 0.5);
+  transform: translateY(-2px);
 }
 
 .card-header {
@@ -240,21 +252,22 @@ const deleteNotification = async () => {
 .notification-title {
   font-size: 16px;
   font-weight: 600;
-  color: var(--el-text-color-primary);
+  color: #06b6d4;
   margin: 0 0 12px 0;
   line-height: 1.4;
+  text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
 }
 
 .notification-content {
   font-size: 14px;
-  color: var(--el-text-color-regular);
+  color: #e5e7eb;
   line-height: 1.6;
   margin: 0 0 16px 0;
 }
 
 .notification-footer {
   padding-top: 12px;
-  border-top: 1px solid var(--el-border-color-light);
+  border-top: 1px solid rgba(6, 182, 212, 0.3);
 }
 
 .footer-info {
@@ -267,16 +280,17 @@ const deleteNotification = async () => {
   align-items: center;
   gap: 4px;
   font-size: 12px;
-  color: var(--el-text-color-secondary);
+  color: #9ca3af;
 }
 
 .info-icon {
   font-size: 14px;
-  color: var(--el-text-color-placeholder);
+  color: #06b6d4;
 }
 
 .info-text {
   font-weight: 500;
+  color: #d1d5db;
 }
 
 .ml-2 {
@@ -295,7 +309,7 @@ const deleteNotification = async () => {
 }
 
 .warning-icon {
-  color: var(--el-color-warning);
+  color: #f59e0b;
   font-size: 24px;
   flex-shrink: 0;
 }
@@ -304,18 +318,121 @@ const deleteNotification = async () => {
   margin: 0 0 8px 0;
   font-size: 16px;
   font-weight: 600;
-  color: var(--el-text-color-primary);
+  color: #06b6d4;
 }
 
 .warning-text p {
   margin: 0;
   font-size: 14px;
-  color: var(--el-text-color-secondary);
+  color: #9ca3af;
 }
 
 .dialog-footer {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
+}
+
+/* Element Plus 组件深度样式覆盖 */
+:deep(.el-card) {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+:deep(.el-card__header) {
+  background: rgba(6, 182, 212, 0.1) !important;
+  border-bottom: 1px solid rgba(6, 182, 212, 0.3) !important;
+  padding: 15px 20px !important;
+  border-radius: 12px 12px 0 0 !important;
+}
+
+:deep(.el-card__body) {
+  background: transparent !important;
+  color: #e5e7eb !important;
+}
+
+:deep(.el-tag) {
+  border-radius: 6px !important;
+  font-weight: 500 !important;
+}
+
+:deep(.el-tag--success) {
+  background: rgba(34, 197, 94, 0.2) !important;
+  border-color: rgba(34, 197, 94, 0.5) !important;
+  color: #22c55e !important;
+}
+
+:deep(.el-tag--warning) {
+  background: rgba(245, 158, 11, 0.2) !important;
+  border-color: rgba(245, 158, 11, 0.5) !important;
+  color: #f59e0b !important;
+}
+
+:deep(.el-tag--info) {
+  background: rgba(6, 182, 212, 0.2) !important;
+  border-color: rgba(6, 182, 212, 0.5) !important;
+  color: #06b6d4 !important;
+}
+
+:deep(.el-tag--danger) {
+  background: rgba(239, 68, 68, 0.2) !important;
+  border-color: rgba(239, 68, 68, 0.5) !important;
+  color: #ef4444 !important;
+}
+
+:deep(.el-button) {
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+}
+
+:deep(.el-button--warning) {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+  border: none !important;
+  color: white !important;
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.4) !important;
+}
+
+:deep(.el-button--warning:hover) {
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.6) !important;
+  transform: translateY(-2px) !important;
+}
+
+:deep(.el-button--danger) {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+  border: none !important;
+  color: white !important;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4) !important;
+}
+
+:deep(.el-button--danger:hover) {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.6) !important;
+  transform: translateY(-2px) !important;
+}
+
+:deep(.el-dialog) {
+  background: rgba(31, 41, 55, 0.95) !important;
+  border: 1px solid rgba(6, 182, 212, 0.3) !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+:deep(.el-dialog__header) {
+  background: rgba(6, 182, 212, 0.1) !important;
+  border-bottom: 1px solid rgba(6, 182, 212, 0.3) !important;
+  border-radius: 12px 12px 0 0 !important;
+}
+
+:deep(.el-dialog__title) {
+  color: #06b6d4 !important;
+  font-weight: 600 !important;
+}
+
+:deep(.el-dialog__body) {
+  background: transparent !important;
+  color: #e5e7eb !important;
 }
 </style>

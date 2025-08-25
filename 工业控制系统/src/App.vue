@@ -4,6 +4,7 @@ import { useElementPlusLocale } from '@/composables/useElementPlusLocale'
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 import Layout from './components/layout/index.vue'
+import 'element-plus/theme-chalk/dark/css-vars.css'
 
 // 获取 Element Plus 国际化配置
 const { elementPlusLocale } = useElementPlusLocale()

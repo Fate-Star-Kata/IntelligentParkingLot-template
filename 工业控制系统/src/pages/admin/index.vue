@@ -76,8 +76,15 @@ const iconVariants = {
 
 <template>
   <Motion :initial="pageVariants.initial" :animate="pageVariants.animate" :transition="pageVariants.transition"
-    class="admin-layout">
-    <el-container class="h-screen">
+    class="admin-layout bg-gray-900 text-white relative overflow-hidden">
+    <!-- 工业控制系统背景网格 -->
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute inset-0"
+        style="background-image: linear-gradient(rgba(0,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,255,0.1) 1px, transparent 1px); background-size: 20px 20px;">
+      </div>
+    </div>
+
+    <el-container class="h-screen relative z-10">
 
       <!-- 侧边栏 -->
       <Motion :animate="isCollapse ? sidebarWidthVariants.collapsed : sidebarWidthVariants.expanded"
@@ -93,7 +100,7 @@ const iconVariants = {
       <!-- 主内容区域 -->
       <el-container class="main-content-transition">
         <!-- 头部 -->
-        <el-header class="el-header border-b border-gray-200"
+        <el-header class="el-header border-b-2 border-cyan-500"
           style="overflow: visible; position: relative; z-index: 50;">
 
           <Motion :initial="headerVariants.initial" :animate="headerVariants.animate"
@@ -103,7 +110,7 @@ const iconVariants = {
         </el-header>
 
         <!-- 主要内容 -->
-        <el-main class="bg-gray-50">
+        <el-main class="bg-gray-900">
           <div class="p-6">
             <!-- 子路由内容 -->
             <Motion :initial="cardVariants.initial" :animate="cardVariants.animate"
@@ -124,8 +131,9 @@ const iconVariants = {
 }
 
 .el-aside-wrapper {
-  background-color: #ffffff;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.06);
+  background-color: #1f2937;
+  box-shadow: 2px 0 8px rgba(0, 255, 255, 0.1);
+  border-right: 2px solid #06b6d4;
   position: relative;
   overflow: hidden;
 }
@@ -138,10 +146,11 @@ const iconVariants = {
 }
 
 .el-header {
-  background-color: #fff;
+  background-color: #1f2937;
   padding: 0;
   height: 60px;
   line-height: 60px;
+  box-shadow: 0 2px 8px rgba(0, 255, 255, 0.1);
 }
 
 .el-main {
@@ -157,12 +166,15 @@ const iconVariants = {
 /* 统计卡片增强样式 */
 .cursor-pointer {
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 255, 255, 0.1);
   transition: box-shadow 0.3s ease;
+  background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+  border: 1px solid rgba(6, 182, 212, 0.3);
 }
 
 .cursor-pointer:hover {
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 25px rgba(0, 255, 255, 0.2);
+  border-color: #06b6d4;
 }
 
 /* 响应式动画优化 */
@@ -184,11 +196,47 @@ const iconVariants = {
 /* 增强卡片视觉效果 */
 .el-card {
   border-radius: 12px;
-  border: none;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  box-shadow: 0 2px 12px rgba(0, 255, 255, 0.1);
+  background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+  color: white;
 }
 
 .el-card:hover {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 20px rgba(0, 255, 255, 0.2);
+  border-color: #06b6d4;
+}
+
+/* 自定义滚动条样式 */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #374151;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #06b6d4;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0891b2;
+}
+
+/* 网格背景动画 */
+@keyframes grid-move {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(20px, 20px);
+  }
+}
+
+.grid-bg {
+  animation: grid-move 10s linear infinite;
 }
 </style>
